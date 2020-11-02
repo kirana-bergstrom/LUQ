@@ -189,11 +189,40 @@ class ODE(IVPBase):
         return time_series
 
 
+class PredatorPrey(ODE):
+    """
+    The Predator-Prey ODE system:
+    $$x' = (b - py)x$$
+    $$y' = (rx - d)y$$
+    If b > 0, there are two equilibria, x = 0, y = 0 (extinction),
+    and x = d / r, y = b / p (co-existence),
+    """
+
+    def __init__(self):
+        super().__init__()
+        self.num_equations = 2
+        self.num_params = 4
+
+    def define_f(self, param):
+        def f(t, y):
+            return [(param[0] - param[1] * y[1]) * y[0],
+                    (param[2] * y[0] - param[3]) * y[1]]
+        return f
+
+    def define_jacobian(self, param):
+        self.jacobian = True
+
+        def jacobian(t, y):
+            return [[param[0] - param[1] * y[1], -param[1] * y[0]],
+                    [param[2] * y[1], param[2] * y[0] - param[3]]]
+        return jacobian
+
+
 class Lienard(ODE):
     """
     The Lienard ODE system:
     $$u' = v$$
-    $$v' = -u + (\mu - u^2) v,$$
+    $$v' = -u + (\mu - u^2) v$$
     which has a Hopf bifurcation at $\mu = 0$.
     """
 

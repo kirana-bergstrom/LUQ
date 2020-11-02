@@ -2,6 +2,7 @@ import unittest
 import os
 import numpy.testing as nptest
 import numpy as np
+from luq import LUQ
 from luq.luq import LUQ
 from luq.dynamical_systems import Selkov
 from luq.dynamical_systems import HarmonicOscillator
