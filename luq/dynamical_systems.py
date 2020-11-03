@@ -301,6 +301,7 @@ class Lorenz(ODE):
             f2 = y[0] * (rho - y[2]) - y[1]
             f3 = y[0] * y[1] - beta * y[2]
             return [f1, f2, f3]
+        return f
 
     def define_jacobian(self, param):
         self.jacobian = True
